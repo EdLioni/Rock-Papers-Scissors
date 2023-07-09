@@ -2,45 +2,67 @@ let PlayerScore = 0;
 let ComputerScore = 0;
 let exit = false;
 let playerSelection;
-const ComputerSelection = getComputerChoice();
 let promptext1 = "";
 let iteration = 0;
+const btn_Rock2 = document.getElementById('btn_Rock');
+const btn_Paper2 = document.getElementById('btn_Paper');
+const btn_Scissors2 = document.getElementById('btn_Scissors');
+const winnerText = document.getElementById('winnerText');
+const scoreText = document.getElementById('scoreText')
 
 function getComputerChoice() {
+    
     let computerOptions = ["Rock", "Paper", "Scissors"];
     return computerOptions[Math.floor(Math.random() * computerOptions.length)];
 }
 
-function playRound() {
+function playRound(input, ComputerSelection) {
+    
     if (
-        (playerSelection === "Rock" && ComputerSelection === "Scissors") ||
-        (playerSelection === "Paper" && ComputerSelection === "Rock") ||
-        (playerSelection === "Scissors" && ComputerSelection === "Paper")
+        (input === "Rock" && ComputerSelection === "Scissors") ||
+        (input === "Paper" && ComputerSelection === "Rock") ||
+        (input === "Scissors" && ComputerSelection === "Paper")
     ) {
         PlayerScore += 1;
-        return playerSelection + " beats " + ComputerSelection + ". Player wins!";
-    } else if (playerSelection === ComputerSelection) {
-        return "It's a tie!";
+        return input + " beats " + ComputerSelection + ". Player wins!";
+
+    } else if (input === ComputerSelection) {
+
+        return input + " vs. " + ComputerSelection + ". It's a tie!";
+
     } else {
+
         ComputerScore += 1;
-        return ComputerSelection + " beats " + playerSelection + ". Computer wins!";
-    }
-}
+        return ComputerSelection + " beats " + input + ". Computer wins!";
 
-while (!exit) {
+    }
     
-    do {
-        let promptText = iteration === 0 ? "Select Rock, Paper, or Scissors\n\nType 'Quit' to stop" : "Invalid input. Please enter 'Rock', 'Paper', 'Scissors', or 'Quit':";
-        let playerInput = prompt(promptText);
-        playerSelection = playerInput.charAt(0).toUpperCase() + playerInput.slice(1).toLowerCase();
-        iteration++;
-    } while (playerSelection !== "Rock" && playerSelection !== "Paper" && playerSelection !== "Scissors" && playerSelection !== "Quit");
-
-    if (playerSelection === "Quit") {
-        exit = true;
-    } else {
-        iteration=0;
-        console.log(`${playerSelection} vs ${ComputerSelection}\n\n${playRound()}`);
-        console.log(`\nPlayer Score: ${PlayerScore} Computer Score: ${ComputerScore}`);
-    }
 }
+
+function displayScores(){
+    scoreText.textContent = `Score: Player ${PlayerScore} Computer Score: ${ComputerScore}`;
+}
+
+
+
+
+btn_Rock.addEventListener('click', function() {
+
+    winnerText.textContent= playRound("Rock", getComputerChoice());
+    displayScores();
+ 
+});
+
+btn_Paper.addEventListener('click', function(){
+ 
+    winnerText.textContent= playRound("Paper", getComputerChoice());
+    displayScores();
+
+});
+
+btn_Scissors.addEventListener('click', function(){
+
+    winnerText.textContent= playRound("Scissors", getComputerChoice());
+    displayScores();
+    
+});
